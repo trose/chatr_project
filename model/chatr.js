@@ -7,7 +7,7 @@ const knex = require('knex')({
 });
 
 module.exports = class Chatr {
-  static new = async ({recipientId, senderId, message} = {}) => {
+  static new = async ({recipientId, senderId, message}) => {
     return await knex('chatr')
       .insert({recipientId, senderId, message, createdAt: knex.fn.now()});
   };

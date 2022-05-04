@@ -6,10 +6,15 @@ router.get('/chatr/:recipientId', async function(req, res) {
   const { recipientId } = req.params;
 
   try {
-    res.send({ chatr: await Chatr.forUser(recipientId) });
+    const chatr = await Chatr.forUser(recipientId);
+    if (chatr.length > 0) {
+      res.send({chatr});
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
     console.log(err);
-    res.status(500).send({error: JSON.stringify(err)});
+    res.sendStatus(500);
   }
 });
 
@@ -17,10 +22,15 @@ router.get('/chatr/:recipientId/from/:senderId', async function(req, res) {
   const { recipientId, senderId } = req.params;
 
   try {
-    res.send({ chatr: await Chatr.forUser(recipientId, senderId) });
+    const chatr = await Chatr.forUser(recipientId, senderId);
+    if (chatr.length > 0) {
+      res.send({chatr});
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
     console.log(err);
-    res.status(500).send({error: JSON.stringify(err)});
+    res.sendStatus(500);
   }
 });
 
@@ -30,10 +40,10 @@ router.post('/chatr/:recipientId/from/:senderId', async (req, res) => {
 
   try {
     await Chatr.new({recipientId, senderId, message});
-    res.send(200);
+    res.sendStatus(200);
   } catch (err) {
     console.log(err);
-    res.status(500).send({error: JSON.stringify(err)});
+    res.sendStatus(500);
   }
 });
 
