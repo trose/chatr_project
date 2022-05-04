@@ -14,6 +14,7 @@ async function setup() {
     await knex.schema.createTable('user', table => {
       table.increments('id');
       table.string('username').notNullable();
+      table.unique('username');
       table.boolean('active');
     });
     await knex.schema.createTable('chatr', table => {
@@ -22,9 +23,8 @@ async function setup() {
       table.integer('senderId').unsigned();
       table.string('message', 1080);
       table.datetime('createdAt');
-      table.foreign(['recipientId', 'senderId'])
-           .references(['id', 'id'])
-           .inTable('user');
+      table.foreign('recipientId').references('user.id');
+      table.foreign('senderId').references('user.id');
     });
   } catch (err) {
     console.log(err);

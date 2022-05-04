@@ -6,24 +6,23 @@ const knex = require('knex')({
   },
 });
 
-export default class Chatr {
-  static sendChatr = ({recipientId, senderId, message}) => {
-    return knex('chatr').insert({recipientId, senderId, message});
+module.exports = class Chatr {
+  static new = async ({recipientId, senderId, message} = {}) => {
+    return await knex('chatr')
+      .insert({recipientId, senderId, message, createdAt: knex.fn.now()});
   };
 
-  static forUser = recipientId => {
-    return knex('chatr')
-      .innerJoin('user', 'chatr.senderId', '=', 'user.id')
-      .select(['id', 'recipientId', 'user.username as senderName', 'message', 'createdAt'])
-      .where('recipientId', parseInt(recipientId))
+  static forUser = async recipientId => {
+    return await knex('chatr')
+      .select(['chatr.id', 'recipientId', 'senderId', 'message', 'createdAt'])
+      .where('recipientId', recipientId)
       .orderBy('createdAt', 'desc')
       .limit(100);
   };
 
   static all = () => {
     return knex('chatr')
-      .innerJoin('user', 'chatr.senderId', '=', 'user.id')
-      .select(['id', 'recipientId', 'user.username as senderName', 'message', 'createdAt'])
+      .select(['id', 'recipientId', 'senderId', 'message', 'createdAt'])
       .orderBy('createdAt', 'desc')
       .limit(100);
   };
