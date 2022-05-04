@@ -12,10 +12,17 @@ module.exports = class Chatr {
       .insert({recipientId, senderId, message, createdAt: knex.fn.now()});
   };
 
-  static forUser = async recipientId => {
+  static forUser = async (recipientId, senderId) => {
     return await knex('chatr')
       .select(['chatr.id', 'recipientId', 'senderId', 'message', 'createdAt'])
-      .where('recipientId', recipientId)
+      .where('createdAt', '>=', new Date() - 30)
+      .andWhere(() => {
+        this.builder.andWhere('recipientId', recipientId);
+        /* would make an overloaded function in TS */
+        if (!!senderId) {
+          this.builder.andWhere('senderId', senderId);
+        }
+      })
       .orderBy('createdAt', 'desc')
       .limit(100);
   };
@@ -23,6 +30,7 @@ module.exports = class Chatr {
   static all = () => {
     return knex('chatr')
       .select(['id', 'recipientId', 'senderId', 'message', 'createdAt'])
+      .where('createdAt', '>=', new Date() - 30)
       .orderBy('createdAt', 'desc')
       .limit(100);
   };
