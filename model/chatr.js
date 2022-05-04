@@ -16,11 +16,11 @@ module.exports = class Chatr {
     return await knex('chatr')
       .select(['chatr.id', 'recipientId', 'senderId', 'message', 'createdAt'])
       .where('createdAt', '>=', new Date() - 30)
-      .andWhere(() => {
-        this.builder.andWhere('recipientId', recipientId);
+      .andWhere(builder => {
+        builder.andWhere('recipientId', recipientId);
         /* would make an overloaded function in TS */
         if (!!senderId) {
-          this.builder.andWhere('senderId', senderId);
+          builder.andWhere('senderId', senderId);
         }
       })
       .orderBy('createdAt', 'desc')

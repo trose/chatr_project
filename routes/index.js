@@ -13,7 +13,7 @@ router.get('/chatr/:recipientId', async function(req, res) {
   }
 });
 
-router.get('/chatr/:recipientId/from/:senderId', function(req, res) {
+router.get('/chatr/:recipientId/from/:senderId', async function(req, res) {
   const { recipientId, senderId } = req.params;
 
   try {
