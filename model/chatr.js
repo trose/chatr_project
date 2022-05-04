@@ -1,45 +1,30 @@
 
-const Database = require('sqlite-async');
-
-
-
-  const stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-  for (let i = 0; i < 10; i++) {
-      stmt.run("Ipsum " + i);
-  }
-  stmt.finalize();
-
-  db.each("SELECT rowid AS id, info FROM lorem", (err, row) => {
-      console.log(row.id + ": " + row.info);
-  });
+const knex = require('knex')({
+  client: 'sqlite3',
+  connection: {
+    filename: 'db/chatr.db',
+  },
+});
 
 export default class Chatr {
-
-  constructor(params) {
-
-  }
-
-  static DB = await Database('chatr.db').open;
-
   static sendChatr = ({recipientId, senderId, message}) => {
-    return this.DB.execute(`
-      INSERT INTO chatr (recipientId, senderId, message, createdAt)
-      VALUES (?, ?, ?, NOW());`, recipientId, senderId, message);
+    return knex('chatr').insert({recipientId, senderId, message});
   };
 
-  static getAllByRecipientId = recipientId => {
-    return this.DB.execute(`
-      SELECT
-        recepientId,
-        senderId,
-        message,
-        created_at
-      FROM
-        chatr
-      WHERE
-        receipientId=?
-      LIMIT ?
-      ORDER BY created_at DESC;`, recipientId, 100);
+  static forUser = recipientId => {
+    return knex('chatr')
+      .innerJoin('user', 'chatr.senderId', '=', 'user.id')
+      .select(['id', 'recipientId', 'user.username as senderName', 'message', 'createdAt'])
+      .where('recipientId', parseInt(recipientId))
+      .orderBy('createdAt', 'desc')
+      .limit(100);
   };
 
+  static all = () => {
+    return knex('chatr')
+      .innerJoin('user', 'chatr.senderId', '=', 'user.id')
+      .select(['id', 'recipientId', 'user.username as senderName', 'message', 'createdAt'])
+      .orderBy('createdAt', 'desc')
+      .limit(100);
+  };
 }
