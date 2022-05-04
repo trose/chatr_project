@@ -4,6 +4,7 @@ const knex = require('knex')({
   connection: {
     filename: 'db/chatr.db',
   },
+  useNullAsDefault: true
 });
 
 module.exports = class Chatr {

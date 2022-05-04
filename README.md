@@ -17,11 +17,15 @@ brew install nvm && nvm use
 ```
 Install package dependencies and start the server
 ```cli
-yarn && yarn start
+yarn &&
+node ./scripts/createTables.js &&
+yarn start
 ```
 
 ### Testing
 Since there isn't really any business logic to unit test I chose to provide E2E tests using `chai`. I began to implement mocks using `sinon` but ran out of time.
+
+Start the server in one tab and in another:
 ```cli
 yarn test
 ```

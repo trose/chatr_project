@@ -3,6 +3,7 @@ const knex = require('knex')({
   connection: {
     filename: 'db/chatr.db',
   },
+  useNullAsDefault: true
 });
 
 async function setup() {
