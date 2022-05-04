@@ -1,3 +1,15 @@
+```
+ ________   ___  ___   ________   _________   ________     
+|\   ____\ |\  \|\  \ |\   __  \ |\___   ___\|\   __  \    
+\ \  \___| \ \  \\\  \\ \  \|\  \\|___ \  \_|\ \  \|\  \   
+ \ \  \     \ \   __  \\ \   __  \    \ \  \  \ \   _  _\  
+  \ \  \____ \ \  \ \  \\ \  \ \  \    \ \  \  \ \  \\  \| 
+   \ \_______\\ \__\ \__\\ \__\ \__\    \ \__\  \ \__\\ _\ 
+    \|_______| \|__|\|__| \|__|\|__|     \|__|   \|__|\|__|
+                                                           
+                                                           
+                                                                   
+```
 ### Setup Instructions
 This project makes use of `nvm`
 ```cli
@@ -34,4 +46,4 @@ I have a vestigial `user` table that I would flesh out given more time. Simple n
 Give more time, I also wanted to allow users to search through their own sent & received messages. I was initially investigating [Redisearch](https://github.com/RediSearch/RediSearch) as a lightweight full-text document store.
 
 ### BONUS
-Here is a photo of my good boy, Link, in an overt attempt to sway your opinion ![](/public/images/link.jpeg)
+Here is a photo of my good boy, Link, in an overt attempt to sway your evaluation ![](/public/images/link.jpeg)
