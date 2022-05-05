@@ -32,7 +32,7 @@ async function setup() {
     console.log(err);
   }
   /* Script kept hanging. usually this isn't necesarry... */
-  process.exit(1);
+  process.exit(0);
 };
 
 setup();

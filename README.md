@@ -12,13 +12,11 @@ a simple chat API built in Node
 
 This project makes use of `nvm`
 ```
-brew install nvm && nvm use
+brew install nvm; nvm use
 ```
 Install package dependencies and start the server
 ```
-yarn &&
-node ./scripts/createTables.js &&
-yarn start
+yarn install; yarn db_setup; yarn start
 ```
 
 ## Testing
