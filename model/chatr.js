@@ -7,6 +7,9 @@ const knex = require('knex')({
   useNullAsDefault: true
 });
 
+const OLDEST = new Date() - 30; // 30 days ago
+const LIMIT = 100;
+
 module.exports = class Chatr {
   static new = async ({recipientId, senderId, message}) => {
     return await knex('chatr')
@@ -16,7 +19,7 @@ module.exports = class Chatr {
   static forUser = async (recipientId, senderId) => {
     return await knex('chatr')
       .select(['chatr.id', 'recipientId', 'senderId', 'message', 'createdAt'])
-      .where('createdAt', '>=', new Date() - 30)
+      .where('createdAt', '>=', OLDEST)
       .andWhere(builder => {
         builder.andWhere('recipientId', recipientId);
         /* would make an overloaded function in TS */
@@ -25,14 +28,14 @@ module.exports = class Chatr {
         }
       })
       .orderBy('createdAt', 'desc')
-      .limit(100);
+      .limit(LIMIT);
   };
 
   static all = () => {
     return knex('chatr')
       .select(['id', 'recipientId', 'senderId', 'message', 'createdAt'])
-      .where('createdAt', '>=', new Date() - 30)
+      .where('createdAt', '>=', OLDEST)
       .orderBy('createdAt', 'desc')
-      .limit(100);
+      .limit(LIMIT);
   };
 }

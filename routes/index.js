@@ -1,6 +1,6 @@
 var express = require('express');
-const { Chatr } = require('../model')
 var router = express.Router();
+const { Chatr } = require('../model')
 
 router.get('/chatr/:recipientId', async function(req, res) {
   const { recipientId } = req.params;
