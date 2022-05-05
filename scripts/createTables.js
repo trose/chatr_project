@@ -12,6 +12,7 @@ async function setup() {
     await knex.schema.dropTableIfExists('chatr');
     await knex.schema.dropTableIfExists('user');
 
+    /* Currently unused but kept for example */
     await knex.schema.createTable('user', table => {
       table.increments('id');
       table.string('username').notNullable();

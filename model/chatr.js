@@ -4,7 +4,7 @@ const knex = require('knex')({
   connection: {
     filename: 'db/chatr.db',
   },
-  useNullAsDefault: true
+  useNullAsDefault: true // hides warning
 });
 
 const OLDEST = new Date() - 30; // 30 days ago
@@ -22,19 +22,11 @@ module.exports = class Chatr {
       .where('createdAt', '>=', OLDEST)
       .andWhere(builder => {
         builder.andWhere('recipientId', recipientId);
-        /* would make an overloaded function in TS */
+        /* would be able to make an overloaded function in TS */
         if (!!senderId) {
           builder.andWhere('senderId', senderId);
         }
       })
-      .orderBy('createdAt', 'desc')
-      .limit(LIMIT);
-  };
-
-  static all = () => {
-    return knex('chatr')
-      .select(['id', 'recipientId', 'senderId', 'message', 'createdAt'])
-      .where('createdAt', '>=', OLDEST)
       .orderBy('createdAt', 'desc')
       .limit(LIMIT);
   };
